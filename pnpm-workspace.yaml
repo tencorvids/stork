@@ -1,3 +1,10 @@
 packages:
   - "apps/*"
   - "packages/*"
+
+catalog:
+  "@types/node": "^24"
+  "clsx": "^2"
+  "tailwind-merge": "^3"
+  "typescript": "^5"
+  "zod": "^4"

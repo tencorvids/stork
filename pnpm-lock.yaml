@@ -4,8 +4,87 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@types/node':
+      specifier: ^24
+      version: 24.0.12
+    clsx:
+      specifier: ^2
+      version: 2.1.1
+    tailwind-merge:
+      specifier: ^3
+      version: 3.3.1
+    typescript:
+      specifier: ^5
+      version: 5.8.3
+    zod:
+      specifier: ^4
+      version: 4.0.2
+
 importers:
 
   .: {}
 
   packages/tsconfig: {}
+
+  packages/util:
+    dependencies:
+      clsx:
+        specifier: 'catalog:'
+        version: 2.1.1
+      tailwind-merge:
+        specifier: 'catalog:'
+        version: 3.3.1
+      zod:
+        specifier: 'catalog:'
+        version: 4.0.2
+    devDependencies:
+      '@stork/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.0.12
+      typescript:
+        specifier: 'catalog:'
+        version: 5.8.3
+
+packages:
+
+  '@types/node@24.0.12':
+    resolution: {integrity: sha512-LtOrbvDf5ndC9Xi+4QZjVL0woFymF/xSTKZKPgrrl7H7XoeDvnD+E2IclKVDyaK9UM756W/3BXqSU+JEHopA9g==}
+
+  clsx@2.1.1:
+    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
+    engines: {node: '>=6'}
+
+  tailwind-merge@3.3.1:
+    resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
+
+  typescript@5.8.3:
+    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  undici-types@7.8.0:
+    resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
+
+  zod@4.0.2:
+    resolution: {integrity: sha512-X2niJNY54MGam4L6Kj0AxeedeDIi/E5QFW0On2faSX5J4/pfLk1tW+cRMIMoojnCavn/u5W/kX17e1CSGnKMxA==}
+
+snapshots:
+
+  '@types/node@24.0.12':
+    dependencies:
+      undici-types: 7.8.0
+
+  clsx@2.1.1: {}
+
+  tailwind-merge@3.3.1: {}
+
+  typescript@5.8.3: {}
+
+  undici-types@7.8.0: {}
+
+  zod@4.0.2: {}
