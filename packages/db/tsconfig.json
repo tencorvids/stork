@@ -1,0 +1,4 @@
+{
+    "extends": "@stork/tsconfig/base.json",
+    "include": ["src"]
+}

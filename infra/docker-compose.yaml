@@ -1,10 +1,10 @@
 services:
   postgres:
     image: postgres:17.2
-    container_name: potion-db
+    container_name: stork-db
     environment:
-      POSTGRES_USER: potion
-      POSTGRES_PASSWORD: potion
+      POSTGRES_USER: stork
+      POSTGRES_PASSWORD: stork
       POSTGRES_DB: local
     ports:
       - "5432:5432"
