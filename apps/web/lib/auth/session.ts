@@ -35,7 +35,7 @@ export async function createSession(
     expiresAt: new Date(Date.now() + SESSION_EXPIRY_MS),
   };
 
-  const [createdSession, error] = await tc(
+  const [result, error] = await tc(
     db.insert(sessionTable).values(session).returning(),
   );
 
@@ -43,7 +43,8 @@ export async function createSession(
     return err(error);
   }
 
-  return ok(createdSession[0]);
+  const createdSession = result[0];
+  return ok(createdSession);
 }
 
 export async function validateSessionToken(
