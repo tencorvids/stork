@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+
+# Local env files
+.env
+.env.production
+.env.local
+
+# Misc
+.DS_Store
+*.pem
+.vscode/
+.idea/

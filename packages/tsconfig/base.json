@@ -1,0 +1,27 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+  
+    "compilerOptions": {
+      "lib": ["ESNext", "DOM"],
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleDetection": "force",
+      "allowJs": true,
+  
+      "moduleResolution": "bundler",
+      "allowImportingTsExtensions": true,
+      "verbatimModuleSyntax": true,
+      "noEmit": true,
+  
+      "strict": true,
+      "skipLibCheck": true,
+      "noFallthroughCasesInSwitch": true,
+  
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noPropertyAccessFromIndexSignature": true
+    },
+  
+    "include": ["**/*.ts", "**/*.tsx"],
+    "exclude": ["node_modules", "dist"]
+}

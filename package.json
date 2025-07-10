@@ -1,0 +1,7 @@
+{
+    "name": "stork",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {},
+    "packageManager": "pnpm@10.5.2"
+}

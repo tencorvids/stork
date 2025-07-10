@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17.2
+    container_name: potion-db
+    environment:
+      POSTGRES_USER: potion
+      POSTGRES_PASSWORD: potion
+      POSTGRES_DB: local
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
