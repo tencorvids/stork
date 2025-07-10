@@ -12,6 +12,7 @@ catalog:
   "clsx": "^2"
   "dotenv": "^17"
   "drizzle-orm": "^0.44"
+  "neverthrow": "^8.2.0"
   "react": "^19"
   "react-dom": "^19"
   "react-hook-form": "^7"

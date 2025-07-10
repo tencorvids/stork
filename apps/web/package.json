@@ -8,21 +8,24 @@
     "start": "next start"
   },
   "dependencies": {
+    "@oslojs/encoding": "^1.1.0",
     "@stork/db": "workspace:*",
     "@stork/ui": "workspace:*",
     "@stork/util": "workspace:*",
     "dotenv": "catalog:",
+    "drizzle-orm": "catalog:",
+    "neverthrow": "catalog:",
+    "next": "15.3.5",
     "react": "catalog:",
-    "react-dom": "catalog:",
-    "next": "15.3.5"
+    "react-dom": "catalog:"
   },
   "devDependencies": {
-    "typescript": "catalog:",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@tailwindcss/postcss": "^4",
     "tailwindcss": "catalog:",
+    "typescript": "catalog:",
     "zod": "catalog:"
   }
 }
