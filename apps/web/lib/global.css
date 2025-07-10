@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@import "@stork/ui/styles/color.css";
+@import "@stork/ui/styles/font.css";
+@import "@stork/ui/styles/patch.css";
+@import "@stork/ui/styles/system.css";
+
+/**
+ * Tailwind CSS official document:
+ * https://tailwindcss.com/docs/detecting-classes-in-source-files
+ *
+ * if you ever need to explicitly add a source that's excluded by default,
+ * you can always add it with the @source directive.
+ */
+@source "../node_modules/@stork/ui";
