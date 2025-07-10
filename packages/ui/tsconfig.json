@@ -1,0 +1,4 @@
+{
+  "extends": "@stork/tsconfig/react.json",
+  "include": ["src"]
+}

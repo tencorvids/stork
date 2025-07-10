@@ -3,8 +3,17 @@ packages:
   - "packages/*"
 
 catalog:
+  "@phosphor-icons/react": "^2"
   "@types/node": "^24"
+  "@types/react": "^19"
+  "@types/react-dom": "^19"
+  "class-variance-authority": "^0.7"
   "clsx": "^2"
+  "dotenv": "^17"
+  "drizzle-orm": "^0.44"
+  "react": "^19"
+  "react-dom": "^19"
+  "tailwindcss": "^4"
   "tailwind-merge": "^3"
   "typescript": "^5"
   "zod": "^4"

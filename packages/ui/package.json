@@ -1,0 +1,26 @@
+{
+  "name": "@stork/ui",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles/*": "./src/styles/*"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "catalog:",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@stork/util": "workspace:*",
+    "class-variance-authority": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "devDependencies": {
+    "@stork/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "tw-animate-css": "^1.3.5",
+    "typescript": "catalog:"
+  }
+}
