@@ -7,12 +7,15 @@
     "./styles/*": "./src/styles/*"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
     "@phosphor-icons/react": "catalog:",
+    "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@stork/util": "workspace:*",
     "class-variance-authority": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "react-hook-form": "^7.60.0",
     "tailwindcss": "catalog:"
   },
   "devDependencies": {
