@@ -43,11 +43,11 @@ const STATUS_CODES = {
 
 export type ErrorCode = keyof typeof STATUS_CODES;
 
-export function success<T>(data: T) {
+export function responseSuccess<T>(data: T) {
   return NextResponse.json({ data }, { status: 200 });
 }
 
-export function error(code: ErrorCode, message: string) {
+export function responseError(code: ErrorCode, message: string) {
   return NextResponse.json(
     {
       error: {
