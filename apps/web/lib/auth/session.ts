@@ -14,8 +14,10 @@ import { tc } from "@stork/util";
 export const SESSION_EXPIRY_MS = 1000 * 60 * 60 * 24 * 30; // 30 days
 export const SESSION_EXTENSION_THRESHOLD_MS = 1000 * 60 * 60 * 24 * 15; // 15 days
 
+export type UserWithoutPassword = Omit<UserSelect, "password">;
+
 export type SessionValidationResult =
-  | { session: SessionSelect; user: UserSelect }
+  | { session: SessionSelect; user: UserWithoutPassword }
   | { session: null; user: null };
 
 export function generateSessionToken(): string {
@@ -66,6 +68,9 @@ export async function validateSessionToken(
       throw new Error("session expired");
     }
 
+    // Omit password from user object
+    const { password, ...userWithoutPassword } = user;
+
     if (
       Date.now() >=
       session.expiresAt.getTime() - SESSION_EXTENSION_THRESHOLD_MS
@@ -75,10 +80,10 @@ export async function validateSessionToken(
         .update(sessionTable)
         .set({ expiresAt: session.expiresAt })
         .where(eq(sessionTable.id, session.id));
-      return ok({ session, user });
+      return ok({ session, user: userWithoutPassword });
     }
 
-    return ok({ session, user });
+    return ok({ session, user: userWithoutPassword });
   } catch (error) {
     console.error(error);
   }
