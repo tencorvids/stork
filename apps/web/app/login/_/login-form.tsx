@@ -21,39 +21,13 @@ import {
     Input,
 } from "@stork/ui"
 import { z } from "zod/v4"
+import { api, ApiException } from "@/api/client"
 
 const loginFormSchema = z.object({
     email: z.email({ message: "Please enter a valid email address." }),
     password: z.string().min(1, { message: "Password is required." }),
 })
-
 type LoginFormData = z.infer<typeof loginFormSchema>
-
-async function login(data: LoginFormData) {
-    const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-
-    if (!response.ok) {
-        let errorMessage = "Failed to log in"
-
-        try {
-            const errorResponse = await response.json()
-            errorMessage = errorResponse.error?.message || errorMessage
-        } catch {
-            errorMessage = response.statusText || errorMessage
-        }
-
-        throw new Error(errorMessage)
-    }
-
-    const result = await response.json()
-    return result.data
-}
 
 export function LoginForm() {
     const router = useRouter()
@@ -67,21 +41,29 @@ export function LoginForm() {
     })
 
     const loginMutation = useMutation({
-        mutationFn: (data: LoginFormData) => login(data),
-        onSuccess: async () => {
-            form.reset()
+        mutationFn: async (data: LoginFormData) => {
+            const loginResult = await api.post<void>("/api/auth/login", data)
 
-            // Fetch user data after successful login
-            // const response = await fetch("/api/auth/me")
-            // if (response.ok) {
-            // const userData = await response.json()
-            // setUser(userData) - you'll need to handle user state management
+            if (loginResult.isErr()) {
+                throw loginResult.error
+            }
+
+            // const userResult = await api.get<UserData>("/api/auth/me")
+            // if (userResult.isErr()) {
+            //     console.error("Failed to fetch user data:", userResult.error)
+            //     return
             // }
-
+            // const userData = userResult.value
+            // console.log("User logged in:", userData)
+        },
+        onSuccess: () => {
+            form.reset()
             router.push("/")
         },
-        onError: (error: Error) => {
-            console.error(error)
+        onError: (error: ApiException) => {
+            form.setError("root", {
+                message: error.message || "Login failed. Please try again."
+            })
         },
     })
 
@@ -100,6 +82,11 @@ export function LoginForm() {
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                        {form.formState.errors.root && (
+                            <div className="rounded-sm bg-destructive/15 p-3 grid place-items-center">
+                                <span className="text-destructive">{form.formState.errors.root.message}</span>
+                            </div>
+                        )}
                         <div className="space-y-4">
                             <FormField
                                 control={form.control}

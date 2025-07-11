@@ -21,6 +21,7 @@ import {
     Input,
 } from "@stork/ui"
 import { z } from "zod/v4"
+import { api, ApiException } from "@/api/client"
 
 const signUpFormSchema = z
     .object({
@@ -35,23 +36,6 @@ const signUpFormSchema = z
 
 type SignUpFormData = z.infer<typeof signUpFormSchema>
 
-async function signUp(data: Omit<SignUpFormData, "confirmPassword">) {
-    const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-
-    if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.message || "Failed to sign up")
-    }
-
-    return response.json()
-}
-
 export function SignUpForm() {
     const router = useRouter()
 
@@ -65,21 +49,29 @@ export function SignUpForm() {
     })
 
     const signUpMutation = useMutation({
-        mutationFn: (data: Omit<SignUpFormData, "confirmPassword">) => signUp(data),
-        onSuccess: async () => {
-            form.reset()
+        mutationFn: async (data: Omit<SignUpFormData, "confirmPassword">) => {
+            const signUpResult = await api.post<void>("/api/auth/signup", data)
 
-            // Fetch user data after successful signup
-            // const response = await fetch("/api/auth/me")
-            // if (response.ok) {
-            // const userData = await response.json()
-            // setUser(userData) - you'll need to handle user state management
+            if (signUpResult.isErr()) {
+                throw signUpResult.error
+            }
+
+            // const userResult = await api.get<UserData>("/api/auth/me")
+            // if (userResult.isErr()) {
+            //     console.error("Failed to fetch user data:", userResult.error)
+            //     return
             // }
-
+            // const userData = userResult.value
+            // console.log("User signed up:", userData)
+        },
+        onSuccess: () => {
+            form.reset()
             router.push("/")
         },
-        onError: (error: Error) => {
-            console.error(error)
+        onError: (error: ApiException) => {
+            form.setError("root", {
+                message: error.message || "Sign up failed. Please try again."
+            })
         },
     })
 
@@ -99,6 +91,11 @@ export function SignUpForm() {
             <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                        {form.formState.errors.root && (
+                            <div className="rounded-sm bg-destructive/15 p-3 grid place-items-center">
+                                <span className="text-destructive">{form.formState.errors.root.message}</span>
+                            </div>
+                        )}
                         <div className="space-y-4">
                             <FormField
                                 control={form.control}
@@ -171,16 +168,22 @@ export function SignUpForm() {
                     </form>
                 </Form>
 
-                <p className="text-muted-foreground text-center text-xs mt-4">
-                    By signing up you agree to our{" "}
-                    <a className="underline hover:no-underline" href="/">
-                        Terms
-                    </a>
-                    .
-                </p>
+                <div className="mt-4 text-center">
+                    <p className="text-muted-foreground text-sm">
+                        Don't have an account?{" "}
+                        <a className="underline hover:no-underline" href="/login">
+                            Log in
+                        </a>
+                    </p>
+                    <p className="text-muted-foreground text-xs mt-2">
+                        By signing up you agree to our{" "}
+                        <a className="underline hover:no-underline" href="/">
+                            Terms
+                        </a>
+                        .
+                    </p>
+                </div>
             </CardContent>
         </Card>
     )
 }
-
-

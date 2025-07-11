@@ -7,7 +7,7 @@ import { db } from "@/db";
 import { hashPassword } from "@/auth/hash";
 import { createSession, generateSessionToken } from "@/auth/session";
 import { setSessionTokenCookie } from "@/auth/cookie";
-import { responseError, responseSuccess } from "@/response";
+import { responseError, responseSuccess } from "~/lib/api/response";
 
 const requestSchema = z.object({
   email: z.email({ message: "Please enter a valid email address." }),

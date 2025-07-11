@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { tc } from "@stork/util";
-import { responseError, responseSuccess } from "@/response";
+import { responseError, responseSuccess } from "~/lib/api/response";
 import { db } from "@/db";
 import { userTable } from "@stork/db";
 import { eq } from "drizzle-orm";
