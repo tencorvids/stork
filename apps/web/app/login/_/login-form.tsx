@@ -22,6 +22,8 @@ import {
 } from "@stork/ui"
 import { z } from "zod/v4"
 import { api, ApiException } from "@/api/client"
+import { SessionValidationResult } from "@/auth/session"
+import { $user } from "~/lib/store/user"
 
 const loginFormSchema = z.object({
     email: z.email({ message: "Please enter a valid email address." }),
@@ -42,19 +44,13 @@ export function LoginForm() {
 
     const loginMutation = useMutation({
         mutationFn: async (data: LoginFormData) => {
-            const loginResult = await api.post<void>("/api/auth/login", data)
+            const loginResult = await api.post<SessionValidationResult>("/api/auth/login", data)
 
             if (loginResult.isErr()) {
                 throw loginResult.error
             }
 
-            // const userResult = await api.get<UserData>("/api/auth/me")
-            // if (userResult.isErr()) {
-            //     console.error("Failed to fetch user data:", userResult.error)
-            //     return
-            // }
-            // const userData = userResult.value
-            // console.log("User logged in:", userData)
+            $user.set(loginResult.value.user)
         },
         onSuccess: () => {
             form.reset()

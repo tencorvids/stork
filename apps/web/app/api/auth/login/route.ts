@@ -6,7 +6,11 @@ import { userTable } from "@stork/db";
 import { eq } from "drizzle-orm";
 import z from "zod/v4";
 import { verifyPasswordHash } from "@/auth/hash";
-import { createSession, generateSessionToken } from "@/auth/session";
+import {
+  createSession,
+  generateSessionToken,
+  validateSessionToken,
+} from "@/auth/session";
 import { setSessionTokenCookie } from "@/auth/cookie";
 
 const requestSchema = z.object({
@@ -72,7 +76,16 @@ export async function POST(request: NextRequest) {
     return responseError("INTERNAL_SERVER_ERROR", "Failed to create session.");
   }
 
-  const response = responseSuccess({});
+  const sessionValidationResult = await validateSessionToken(token);
+  if (sessionValidationResult.isErr()) {
+    console.error(sessionValidationResult.error);
+    return responseError(
+      "INTERNAL_SERVER_ERROR",
+      "Failed to validate session.",
+    );
+  }
+
+  const response = responseSuccess(sessionValidationResult.value);
   await setSessionTokenCookie(token, sessionResult.value.expiresAt);
   return response;
 }

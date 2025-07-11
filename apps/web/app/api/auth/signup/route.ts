@@ -5,7 +5,11 @@ import { eq } from "drizzle-orm";
 import z from "zod/v4";
 import { db } from "@/db";
 import { hashPassword } from "@/auth/hash";
-import { createSession, generateSessionToken } from "@/auth/session";
+import {
+  createSession,
+  generateSessionToken,
+  validateSessionToken,
+} from "@/auth/session";
 import { setSessionTokenCookie } from "@/auth/cookie";
 import { responseError, responseSuccess } from "~/lib/api/response";
 
@@ -80,10 +84,16 @@ export async function POST(request: NextRequest) {
     return responseError("INTERNAL_SERVER_ERROR", "Failed to create session.");
   }
 
-  const response = responseSuccess({
-    userId: createdUser.id,
-    email: createdUser.email,
-  });
+  const sessionValidationResult = await validateSessionToken(token);
+  if (sessionValidationResult.isErr()) {
+    console.error(sessionValidationResult.error);
+    return responseError(
+      "INTERNAL_SERVER_ERROR",
+      "Failed to validate session.",
+    );
+  }
+
+  const response = responseSuccess(sessionValidationResult.value);
 
   await setSessionTokenCookie(token, sessionResult.value.expiresAt);
   return response;
