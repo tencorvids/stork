@@ -3,7 +3,7 @@ packages:
   - "packages/*"
 
 catalog:
-  "@hookkform/resolvers": "^5"
+  "@hookform/resolvers": "^5"
   "@phosphor-icons/react": "^2"
   "@types/node": "^24"
   "@types/react": "^19"

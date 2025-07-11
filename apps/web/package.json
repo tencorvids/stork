@@ -8,17 +8,21 @@
     "start": "next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "catalog:",
     "@node-rs/argon2": "^2.0.2",
     "@oslojs/encoding": "^1.1.0",
     "@stork/db": "workspace:*",
     "@stork/ui": "workspace:*",
     "@stork/util": "workspace:*",
+    "@tanstack/react-query": "^5.82.0",
     "dotenv": "catalog:",
     "drizzle-orm": "catalog:",
     "neverthrow": "catalog:",
     "next": "15.3.5",
+    "next-themes": "^0.4.6",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "react-hook-form": "catalog:"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
