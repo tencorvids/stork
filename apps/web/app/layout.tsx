@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import "@/global.css";
+import "@/style/global.css";
+import { Provider } from "@/provider/server";
 
 export const metadata: Metadata = {
     title: "Stork",
@@ -12,9 +13,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <body className="max-w-screen h-screen">
-                {children}
+                <Provider>
+                    {children}
+                </Provider>
             </body>
         </html>
     );
