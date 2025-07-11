@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "@/style/global.css";
-import { ClientProvider } from "@/provider/client";
+import { Provider } from "@/provider/server";
 
 export const metadata: Metadata = {
     title: "Stork",
@@ -15,9 +15,9 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="max-w-screen h-screen">
-                <ClientProvider>
+                <Provider>
                     {children}
-                </ClientProvider>
+                </Provider>
             </body>
         </html>
     );
