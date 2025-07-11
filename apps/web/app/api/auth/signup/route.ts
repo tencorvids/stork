@@ -44,9 +44,13 @@ export async function POST(request: NextRequest) {
     return responseError("CONFLICT", "User already exists.");
   }
 
+  const hashedPassword = await hashPassword(input.password);
+  if (hashedPassword.isErr()) {
+    return responseError("INTERNAL_SERVER_ERROR", "Failed to hash password.");
+  }
   const user: UserInsert = {
     email: input.email,
-    password: await hashPassword(input.password),
+    password: hashedPassword.value,
     lastLoginAt: new Date(),
   };
 
