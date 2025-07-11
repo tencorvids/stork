@@ -19,11 +19,13 @@ const requestSchema = z.object({
 export async function POST(request: NextRequest) {
   const [body, parseError] = await tc(request.json());
   if (parseError) {
+    console.error(parseError);
     return responseError("BAD_REQUEST", "Invalid request body.");
   }
 
   const validationResult = requestSchema.safeParse(body);
   if (!validationResult.success) {
+    console.error(validationResult.error);
     return responseError("BAD_REQUEST", "Invalid request body.");
   }
 
@@ -33,6 +35,7 @@ export async function POST(request: NextRequest) {
     db.select().from(userTable).where(eq(userTable.email, input.email)),
   );
   if (existingUserError) {
+    console.error(existingUserError);
     return responseError(
       "INTERNAL_SERVER_ERROR",
       "Failed to check for existing user.",
@@ -41,11 +44,13 @@ export async function POST(request: NextRequest) {
 
   const existingUser = existingUserResult[0];
   if (existingUser) {
+    console.error("User already exists.");
     return responseError("CONFLICT", "User already exists.");
   }
 
   const hashedPassword = await hashPassword(input.password);
   if (hashedPassword.isErr()) {
+    console.error(hashedPassword.error);
     return responseError("INTERNAL_SERVER_ERROR", "Failed to hash password.");
   }
   const user: UserInsert = {
@@ -58,17 +63,20 @@ export async function POST(request: NextRequest) {
     db.insert(userTable).values(user).returning(),
   );
   if (createdUserError) {
+    console.error(createdUserError);
     return responseError("INTERNAL_SERVER_ERROR", "Failed to create user.");
   }
 
   const createdUser = createdUserResult[0];
   if (!createdUser) {
+    console.error("Failed to create user.");
     return responseError("INTERNAL_SERVER_ERROR", "Failed to create user.");
   }
 
   const token = generateSessionToken();
   const sessionResult = await createSession(token, createdUser.id);
   if (sessionResult.isErr()) {
+    console.error(sessionResult.error);
     return responseError("INTERNAL_SERVER_ERROR", "Failed to create session.");
   }
 

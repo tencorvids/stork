@@ -17,11 +17,13 @@ const requestSchema = z.object({
 export async function POST(request: NextRequest) {
   const [body, parseError] = await tc(request.json());
   if (parseError) {
+    console.error(parseError);
     return responseError("BAD_REQUEST", "Invalid request body.");
   }
 
   const validationResult = requestSchema.safeParse(body);
   if (!validationResult.success) {
+    console.error(validationResult.error);
     return responseError("BAD_REQUEST", "Invalid request body.");
   }
 
@@ -30,6 +32,7 @@ export async function POST(request: NextRequest) {
     db.select().from(userTable).where(eq(userTable.email, input.email)),
   );
   if (error) {
+    console.error(error);
     return responseError(
       "INTERNAL_SERVER_ERROR",
       "Failed to check for existing user.",
@@ -38,11 +41,13 @@ export async function POST(request: NextRequest) {
 
   const user = result[0];
   if (!user) {
+    console.error("User not found.");
     return responseError("UNAUTHORIZED", "Invalid email or password.");
   }
 
-  const validPassword = await verifyPasswordHash(input.password, user.password);
-  if (!validPassword) {
+  const validPassword = await verifyPasswordHash(user.password, input.password);
+  if (validPassword.isErr() || !validPassword.value) {
+    console.error("Invalid password.");
     return responseError("UNAUTHORIZED", "Invalid email or password.");
   }
 
@@ -53,6 +58,7 @@ export async function POST(request: NextRequest) {
       .where(eq(userTable.id, user.id)),
   );
   if (sessionUpdateError) {
+    console.error(sessionUpdateError);
     return responseError(
       "INTERNAL_SERVER_ERROR",
       "Failed to update user last login time.",
@@ -62,6 +68,7 @@ export async function POST(request: NextRequest) {
   const token = generateSessionToken();
   const sessionResult = await createSession(token, user.id);
   if (sessionResult.isErr()) {
+    console.error(sessionResult.error);
     return responseError("INTERNAL_SERVER_ERROR", "Failed to create session.");
   }
 

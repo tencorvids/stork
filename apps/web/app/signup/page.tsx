@@ -1,7 +1,12 @@
+import type React from "react"
+import { SignUpForm } from "./_/sign-up-form"
+
 export default function Page() {
     return (
-        <main className="w-full h-full">
-            <h1>signup</h1>
+        <main className="w-full h-full flex items-center justify-center p-4">
+            <SignUpForm />
         </main>
-    );
+    )
 }
+
+
