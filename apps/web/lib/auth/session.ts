@@ -77,6 +77,8 @@ export async function validateSessionToken(
         .where(eq(sessionTable.id, session.id));
       return ok({ session, user });
     }
+
+    return ok({ session, user });
   } catch (error) {
     console.error(error);
   }
