@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className="max-w-screen h-screen">
+            <body className="max-w-screen min-h-svh">
                 <Provider>
                     {children}
                 </Provider>
