@@ -5,8 +5,9 @@ This is an opinionated template for creating scalable web applications using a m
 ## Getting Started
 
 1. Clone the repository.
-1b. Run nix-shell to enter a development environment if using nix.
-1c. Run `docker compose up` to start the database in `/infra`.
+2. Set up the environment:
+   - Run nix-shell to enter a development environment if using nix.
+   - Run `docker compose up` to start the database in `/infra`.
 3. Run `pnpm install` to install dependencies.
 
 ## Suggestions
