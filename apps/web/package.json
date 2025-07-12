@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "preview": "pnpm run build && pnpm run start"
   },
   "dependencies": {
     "@hookform/resolvers": "catalog:",
