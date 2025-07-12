@@ -27,3 +27,4 @@ find . -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.tsx
     - Release versioning.
     - Dependency updates (dependabot).
 - Add changesets for versioning.
+- Add theme switcher (already setup themes).
