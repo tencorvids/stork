@@ -18,7 +18,7 @@ This is an opinionated template for creating scalable web applications using a m
 - To replace the namespace throughout the project, replace `NEW_NAMESPACE` with your desired name and run:
 
 ```bash
-find . -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.tsx" -o -name "*.jsx" -o -name "*.md" -o -name "*.yml" -o -name "*.yaml" \) -not -path "./node_modules/*" -not -path "./.git/*" -exec sed -i 's/@stork/@NEW_NAMESPACE/g; s/\bstork\b/NEW_NAMESPACE/g' {} +
+find . -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.tsx" -o -name "*.jsx" -o -name "*.md" -o -name "*.yml" -o -name "*.yaml" -o -name "*.css" \) -not -path "./node_modules/*" -not -path "./.git/*" -exec sed -i 's/@stork/@NEW_NAMESPACE/g; s/\bstork\b/NEW_NAMESPACE/g' {} +
 ```
 
 ## Further Work
