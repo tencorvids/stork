@@ -23,8 +23,9 @@ find . -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.tsx
 
 ## Further Work
 
-- Add a CI/CD pipeline.
+- [ ] Add a CI/CD pipeline.
     - Release versioning.
     - Dependency updates (dependabot).
-- Add changesets for versioning.
-- Add theme switcher (already setup themes).
+- [ ] Add changesets for versioning.
+- [ ] Add theme switcher (already setup themes).
+- [ ] Getting started / usage and better "what's included" documentation.
