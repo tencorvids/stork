@@ -20,16 +20,10 @@ import {
     FormMessage,
     Input,
 } from "@stork/ui"
-import { z } from "zod/v4"
 import { api, ApiException } from "@/api/client"
 import { SessionValidationResult } from "@/auth/session"
 import { $user } from "~/lib/store/user"
-
-const loginFormSchema = z.object({
-    email: z.email({ message: "Please enter a valid email address." }),
-    password: z.string().min(1, { message: "Password is required." }),
-})
-type LoginFormData = z.infer<typeof loginFormSchema>
+import { requestSchema as loginFormSchema, type Request as LoginFormData } from "~/app/api/auth/login/type"
 
 export function LoginForm() {
     const router = useRouter()

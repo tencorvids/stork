@@ -4,7 +4,6 @@ import { responseError, responseSuccess } from "~/lib/api/response";
 import { db } from "@/db";
 import { userTable } from "@stork/db";
 import { eq } from "drizzle-orm";
-import z from "zod/v4";
 import { verifyPasswordHash } from "@/auth/hash";
 import {
   createSession,
@@ -12,11 +11,7 @@ import {
   validateSessionToken,
 } from "@/auth/session";
 import { setSessionTokenCookie } from "@/auth/cookie";
-
-const requestSchema = z.object({
-  email: z.email({ message: "Please enter a valid email address." }),
-  password: z.string(),
-});
+import { requestSchema } from "./type";
 
 export async function POST(request: NextRequest) {
   const [body, parseError] = await tc(request.json());
@@ -35,6 +30,7 @@ export async function POST(request: NextRequest) {
   const [result, error] = await tc(
     db.select().from(userTable).where(eq(userTable.email, input.email)),
   );
+
   if (error) {
     console.error(error);
     return responseError(

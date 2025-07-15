@@ -20,23 +20,10 @@ import {
     FormMessage,
     Input,
 } from "@stork/ui"
-import { z } from "zod/v4"
 import { api, ApiException } from "@/api/client"
 import { $user } from "@/store/user"
 import { SessionValidationResult } from "@/auth/session"
-
-const signUpFormSchema = z
-    .object({
-        email: z.email({ message: "Please enter a valid email address." }),
-        password: z.string().min(8, { message: "Password must be at least 8 characters." }),
-        confirmPassword: z.string()
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords must match.",
-        path: ["confirmPassword"],
-    })
-
-type SignUpFormData = z.infer<typeof signUpFormSchema>
+import { requestSchema as signUpFormSchema, type Request as SignUpFormData } from "~/app/api/auth/signup/type"
 
 export function SignUpForm() {
     const router = useRouter()

@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { tc } from "@stork/util";
 import { UserInsert, userTable } from "@stork/db";
 import { eq } from "drizzle-orm";
-import z from "zod/v4";
 import { db } from "@/db";
 import { hashPassword } from "@/auth/hash";
 import {
@@ -12,13 +11,7 @@ import {
 } from "@/auth/session";
 import { setSessionTokenCookie } from "@/auth/cookie";
 import { responseError, responseSuccess } from "~/lib/api/response";
-
-const requestSchema = z.object({
-  email: z.email({ message: "Please enter a valid email address." }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters." }),
-});
+import { requestSchema } from "./type";
 
 export async function POST(request: NextRequest) {
   const [body, parseError] = await tc(request.json());
