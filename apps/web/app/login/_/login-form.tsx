@@ -23,7 +23,7 @@ import {
 import { api, ApiException } from "@/api/client"
 import { SessionValidationResult } from "@/auth/session"
 import { $user } from "~/lib/store/user"
-import { requestSchema as loginFormSchema, type Request as LoginFormData } from "~/app/api/auth/login/type"
+import { requestSchema as loginFormSchema, type Request as LoginFormData } from "~/app/api/auth/login/types"
 
 export function LoginForm() {
     const router = useRouter()

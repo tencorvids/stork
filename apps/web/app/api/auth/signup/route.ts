@@ -11,7 +11,7 @@ import {
 } from "@/auth/session";
 import { setSessionTokenCookie } from "@/auth/cookie";
 import { responseError, responseSuccess } from "~/lib/api/response";
-import { requestSchema } from "./type";
+import { requestSchema, responseSchema } from "./types";
 
 export async function POST(request: NextRequest) {
   const [body, parseError] = await tc(request.json());
@@ -86,8 +86,15 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const response = responseSuccess(sessionValidationResult.value);
+  const responseValueResponse = responseSchema.safeParse(
+    sessionValidationResult.value,
+  );
+  if (!responseValueResponse.success) {
+    console.error(responseValueResponse.error);
+    return responseError("INTERNAL_SERVER_ERROR", "Failed to create response.");
+  }
 
+  const response = responseSuccess(responseValueResponse.data);
   await setSessionTokenCookie(token, sessionResult.value.expiresAt);
   return response;
 }

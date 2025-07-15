@@ -23,7 +23,7 @@ import {
 import { api, ApiException } from "@/api/client"
 import { $user } from "@/store/user"
 import { SessionValidationResult } from "@/auth/session"
-import { requestSchema as signUpFormSchema, type Request as SignUpFormData } from "~/app/api/auth/signup/type"
+import { requestSchema as signUpFormSchema, type Request as SignUpFormData } from "~/app/api/auth/signup/types"
 
 export function SignUpForm() {
     const router = useRouter()
